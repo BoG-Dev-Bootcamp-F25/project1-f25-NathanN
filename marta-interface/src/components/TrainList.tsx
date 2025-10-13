@@ -1,6 +1,24 @@
-// This component should have a prop specifying the line color (i.e. blue, gold, red, or green), 
-// and would contain the interface for all trains in the given line. The current line that's 
-// being displayed should be stored as a state in the LinesPage component.
+import Train, { type TrainData} from "./Train";
+import '../App.css';
+
+
 
 // Within the TrainList.tsx component, the data should be filtered to only return info for trains that are part of the specific line. 
 // For example, for the gold line we only want an array of gold trains.
+
+// 4 colors: GOLD, RED, BLUE, GREEN
+// filtering, recieve data from linespage via props
+// render list of trains using Train component
+type TrainListProps = {
+    Trains: TrainData[];
+}
+
+export default function TrainList ({Trains}: TrainListProps) {
+    return (
+        <div>
+            {Trains.map((train, i) => (
+                <Train key = {i} trainData = {train} />
+            ))}
+        </div>
+    )
+}
