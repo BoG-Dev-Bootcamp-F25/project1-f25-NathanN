@@ -25,7 +25,7 @@ export default function Train({ trainData }: {trainData: TrainData}) {
         <div id = "Train Badge">
             <h3> {trainData.STATION} --{'>'} {trainData.DESTINATION} </h3>
             <div id = "details">
-                <p> {trainData.LINE} </p>
+                <span> {trainData.LINE} </span>
                 <span> {status} </span>
                 <span> {trainData.WAITING_TIME} </span>
             </div>

@@ -2,6 +2,7 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { useState, useEffect } from 'react'; 
 import TrainList from '../components/TrainList';
+import Train, { type TrainData} from "../components/Train";
 // import Navbar from '../components/Navbar';
 import '../App.css';
 
@@ -22,8 +23,16 @@ const URL: string = "https://midsem-bootcamp-api.onrender.com/arrivals/";
 export default function LinesPage() {
   // initialize some currColor state
   const [currColor, setCurrColor] = useState('GOLD');
-  const [trainData, setData] = useState([]);
+  const [trainData, setData] = useState<TrainData[]>([]);
   const [loading, setLoading] = useState(true); // condtional rendering
+
+  const [arriveFilter, setArriveFilter] = useState(false);
+  const [scheduledFilter, setScheduledFilter] = useState(false);
+  const [northFilter, setNorthFilter] = useState(false);
+  const [eastFilter, setEastFilter] = useState(false);
+  const [southFilter, setSouthFilter] = useState(false);
+  const [westFilter, setWestFilter] = useState(false);
+
   useEffect(() => {
     setLoading(true);
     fetch(`${URL}${currColor}`)
@@ -32,9 +41,59 @@ export default function LinesPage() {
       .catch(err => console.log(err))
       .finally(() => setLoading(false));
   },[currColor])
+  let displayedRides = trainData;
+
   const handleColor = (color: string) => {
     setCurrColor(color);
+    setArriveFilter(false);
+    setScheduledFilter(false);
+    setEastFilter(false);
+    setWestFilter(false);
+    setNorthFilter(false);
+    setSouthFilter(false);
+  };
+  if(arriveFilter) {
+    displayedRides = displayedRides.filter((train) => train.WAITING_TIME === "Arriving");
   }
+  if(scheduledFilter) {
+    displayedRides = displayedRides.filter((train) => train.WAITING_TIME !== "Arriving");
+  }
+  if(eastFilter) {
+    displayedRides = displayedRides.filter((train) => train.DIRECTION === "E");
+  }
+  if(westFilter) {
+    displayedRides = displayedRides.filter((train) => train.DIRECTION === "W");
+  }
+  if(northFilter) {
+    displayedRides = displayedRides.filter((train) => train.DIRECTION === "N");
+  }
+  if(southFilter) {
+    displayedRides = displayedRides.filter((train) => train.DIRECTION === "S");
+  }
+  const filterByArrive = () => {
+    setArriveFilter(prev => !prev); // nots state 
+    setScheduledFilter(false);
+  };
+  const filterByScheduled = () => {
+    setScheduledFilter(prev => !prev); 
+    setArriveFilter(false);
+  };
+  const filterByEast= () => {
+    setEastFilter(prev => !prev); 
+    setWestFilter(false);
+  };
+  const filterByWest = () => {
+    setWestFilter(prev => !prev);  
+    setEastFilter(false);
+  };
+  const filterByNorth = () => {
+    setNorthFilter(prev => !prev); 
+    setSouthFilter(false);
+  };
+  const filterBySouth = () => {
+    setSouthFilter(prev => !prev); 
+    setNorthFilter(false);
+  };
   if (loading) {
     return <div>Loading...</div>; 
   }
@@ -45,7 +104,21 @@ export default function LinesPage() {
         <button onClick={() => handleColor('BLUE')} > Blue </button>
         <button onClick={() => handleColor('GREEN')} > Green </button>
         <h1 className = 'capitalize'>{currColor}</h1>
-        <TrainList Trains={trainData} />
+        <button onClick={filterByArrive} > Arriving </button>
+        <button onClick={filterByScheduled} > Scheduled </button>
+        {(currColor === 'GREEN' || currColor === 'BLUE') && (
+        <>
+          <button onClick={filterByEast} > Eastbound </button>
+          <button onClick={filterByWest} > Westbound </button>
+        </>
+        )}
+        {(currColor === 'GOLD' || currColor === 'RED') && (
+          <>
+            <button onClick={filterByNorth} > Northbound </button>
+            <button onClick={filterBySouth} > Southbound </button>
+          </>
+        )}
+        <TrainList Trains={displayedRides} />
     </div>
   );
 }
