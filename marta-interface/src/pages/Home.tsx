@@ -24,19 +24,19 @@ export default function Home() {
                         <Link to="/lines/gold" className='homepage-button'>
                         Gold
                         </Link>
-                        <hr className='w-3/4'></hr>
+                        <hr className='border-2'></hr>
                         <Link to="/lines/red" className='homepage-button'>
                         Red
                         </Link>
-                        <hr className='w-3/4'></hr>
+                        <hr className=' border-2'></hr>
                         <Link to="/lines/blue" className='homepage-button'>
                         Blue
                         </Link>
-                        <hr className='w-3/4'></hr>
+                        <hr className='border-2'></hr>
                         <Link to="/lines/green" className='homepage-button'>
                         Green
                         </Link>
-                        <hr className='w-3/4'></hr>
+                        <hr className='border-2'></hr>
                     </div>
                 </div>
                 <img src={marta_train} alt='marta train' className='w-1/2'></img>
