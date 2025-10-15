@@ -14,6 +14,9 @@ type TrainListProps = {
 }
 
 export default function TrainList ({Trains}: TrainListProps) {
+    if (!Trains || Trains.length === 0) {
+        return <div>No Trains Currently</div>
+    }
     return (
         <div>
             {Trains.map((train, i) => (

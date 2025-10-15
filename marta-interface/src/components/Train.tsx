@@ -13,6 +13,27 @@ export type TrainData = {
     WAITING_TIME: string; // waiting time in minutes (ex: "4 min")
     STATION: string; // from location
 };
+const lineStyle = (color: string) => {
+    switch(color.toUpperCase()) {
+        case "GOLD":   
+            return 'bg-yellow-400'
+        case "RED":   
+            return 'bg-red-500'
+        case "BLUE":   
+            return 'bg-blue-500'
+        case "GREEN":   
+            return 'bg-green-400'
+        
+    }
+}
+const statusStyle = (status: string) => {
+    switch(status.toUpperCase()) {
+        case "T0S":   
+            return 'text-green-500'
+        default:   
+            return 'text-red-500'
+    }
+}
 export default function Train({ trainData }: {trainData: TrainData}) {
     let status: string = "";
     if (trainData.DELAY === "T0S") {
@@ -22,12 +43,18 @@ export default function Train({ trainData }: {trainData: TrainData}) {
     }
 
     return (
-        <div id = "Train Badge">
-            <h3> {trainData.STATION} --{'>'} {trainData.DESTINATION} </h3>
-            <div id = "details">
-                <span> {trainData.LINE} </span>
-                <span> {status} </span>
-                <span> {trainData.WAITING_TIME} </span>
+        <div id = "Train Badge" className ='flex flex-row gap-10 p-2 border-b-2 border-r-2 w-full '>
+            <div>
+                <h1 className='font-bold text-5xl'>M</h1>
+            </div>
+            <div>
+                <h3 className=''> {trainData.STATION} --{'>'} {trainData.DESTINATION} </h3>
+                <div id = "details" className=''>
+                    <span className={`p-1 text-white text-center rounded-xl ${lineStyle(trainData.LINE)} mr-8`}> {trainData.LINE} </span>
+                    <span className={`${statusStyle(trainData.DELAY)}`}> {status} </span>
+                    <span className='text-green-500 ml-50'> {trainData.WAITING_TIME} </span>
+                    {/* <hr className='absolute left-0 w-full border-t border-2 m-2.5'></hr> */}
+                </div>
             </div>
         </div>
     );

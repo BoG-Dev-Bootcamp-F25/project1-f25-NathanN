@@ -1,8 +1,9 @@
-import { useState } from 'react'
 import LinesPage from './pages/LinesPage';
 import Home from './pages/Home';
+import About from './pages/About';
 import './App.css'
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+
 
 function App() {
   //display linespage
@@ -11,7 +12,8 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/lines" element={<LinesPage />} />
+          <Route path="/lines/:color" element={<LinesPage />} />
+          <Route path="/about" element={<About />} />
         </Routes>
       </BrowserRouter>
     </>
